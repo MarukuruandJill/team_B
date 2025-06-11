@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    //タブ項目を保持する
+    @State var selection = 1
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView(selection: $selection) {
+            MenuContent().tabItem {
+                Text("メニュー")
+            }
+            RecipeContent().tabItem{
+                Text("献立表")
+            }
+            ShareContent().tabItem{
+                Text("共有")
+            }
         }
-        .padding()
     }
 }
 
