@@ -84,6 +84,7 @@ struct RecipeContent: View {
                     }
                     
                 }
+                Spacer(minLength: 5)
             }
             .navigationBarHidden(true) // ナビゲーションバー非表示（必要なら）
         }
