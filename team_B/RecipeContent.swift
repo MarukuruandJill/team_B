@@ -16,6 +16,7 @@ func sundayFor(date: Date) -> Date {
 struct RecipeContent: View {
     let startDate: Date?
     @State private var weekStartDate = Date()
+    @State private var navigate = false
     
     init(startDate: Date? = nil) {
         self.startDate = startDate
@@ -68,7 +69,7 @@ struct RecipeContent: View {
                 HStack{
                     Spacer(minLength: 330)
                     Button(action: {
-                        
+                        navigate = true
                     }){
                         HStack{
                             HStack{
@@ -85,6 +86,9 @@ struct RecipeContent: View {
                     
                 }
                 Spacer(minLength: 5)
+                NavigationLink(destination: RegisterToCalendarView(), isActive: $navigate) {
+                    EmptyView()
+                }
             }
             .navigationBarHidden(true) // ナビゲーションバー非表示（必要なら）
         }
