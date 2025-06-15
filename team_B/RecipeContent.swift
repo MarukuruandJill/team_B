@@ -13,15 +13,18 @@ func sundayFor(date: Date) -> Date {
     return calendar.date(byAdding: .day, value: -((weekday + 6) % 7), to: date)!
 }
 
+
 struct RecipeContent: View {
     let startDate: Date?
+    let cookingDataList: [CookingData]?
     @State private var weekStartDate = Date()
     @State private var navigate = false
     
-    init(startDate: Date? = nil) {
+    init(startDate: Date? = nil, cookingDataList: [CookingData]? = nil) {
         self.startDate = startDate
         let baseDate = startDate ?? Date()
         _weekStartDate = State(initialValue: sundayFor(date: baseDate))
+        self.cookingDataList = cookingDataList
     }
     
     var body: some View {
@@ -61,7 +64,7 @@ struct RecipeContent: View {
                 // 7日分の行
                 ForEach(0..<7, id: \.self) { i in
                     if let date = Calendar.current.date(byAdding: .day, value: i, to: weekStartDate) {
-                        DayRowView(date: date)
+                        DayRowView(date: date, cookingDataList: cookingDataList ?? [])
                     }
                 }
                 
@@ -96,5 +99,11 @@ struct RecipeContent: View {
 }
 
 #Preview {
-    RecipeContent()
+    let sampleData = [
+        CookingData(date: Date(), name: "オムライス", image: Image(systemName: "photo")),
+        CookingData(date: Date(), name: "カレー", image: Image(systemName: "photo")),
+        CookingData(date: Date().addingTimeInterval(-86400), name: "ラーメン", image: Image(systemName: "photo")),// 昨日分（表示されない）
+        CookingData(date: Date().addingTimeInterval(86400), name: "寿司", image: Image(systemName: "photo"))
+    ]
+    RecipeContent(cookingDataList: sampleData)
 }
