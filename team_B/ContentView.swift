@@ -15,6 +15,9 @@ struct ContentView: View {
             MenuContent().tabItem {
                 Text("メニュー")
             }
+            RegistrationView().tabItem{
+                Text("テスト")
+            }
             RecipeContent().tabItem{
                 Text("献立表")
             }
