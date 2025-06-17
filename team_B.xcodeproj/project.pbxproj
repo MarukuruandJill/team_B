@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		186690EC2E00CE4F00445AB8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 186690EB2E00CE4F00445AB8 /* FirebaseAnalytics */; };
+		186690F12E0102AC00445AB8 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 186690F02E0102AC00445AB8 /* FirebaseCore */; };
+		186690F32E0102AC00445AB8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 186690F22E0102AC00445AB8 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -41,7 +43,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186690F12E0102AC00445AB8 /* FirebaseCore in Frameworks */,
 				186690EC2E00CE4F00445AB8 /* FirebaseAnalytics in Frameworks */,
+				186690F32E0102AC00445AB8 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +90,8 @@
 			name = team_B;
 			packageProductDependencies = (
 				186690EB2E00CE4F00445AB8 /* FirebaseAnalytics */,
+				186690F02E0102AC00445AB8 /* FirebaseCore */,
+				186690F22E0102AC00445AB8 /* FirebaseFirestore */,
 			);
 			productName = team_B;
 			productReference = 21399E512DF7CEBC00EFF024 /* team_B.app */;
@@ -367,6 +373,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalytics;
+		};
+		186690F02E0102AC00445AB8 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		186690F22E0102AC00445AB8 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

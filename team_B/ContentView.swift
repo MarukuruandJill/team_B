@@ -34,7 +34,6 @@ struct ContentView: View {
                 Image("calendar")
                     .renderingMode(.template)
                 Text("メニュー")
-            }.tag(0)
             RecipeContent().tabItem{
                 Image("cooking")
                     .renderingMode(.template)

@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseFirestore
 
 struct RegistrationView: View {
     var body: some View {
@@ -24,6 +25,7 @@ struct RegistrationView: View {
         }
     }
 }
+
 
 struct RecordView: View {
     @State private var dishName: String = ""
@@ -138,7 +140,7 @@ struct RecordView: View {
                 
                 // 登録ボタン
                 Button(action: {
-                    // ここに登録処理を実装
+                    saveToFirestore()
                 }) {
                     Text("この料理を記録する")
                         .frame(maxWidth: .infinity)
@@ -153,6 +155,28 @@ struct RecordView: View {
             .navigationBarHidden(true)
         }
     }
+    func saveToFirestore() {
+        let db = Firestore.firestore()
+        let newRecipe: [String: Any] = [
+            "name": dishName,
+            "difficulty": selectedDifficulty,
+            "category": Array(selectedCategories),
+            "url": url,
+            "memo": memo,
+            "createdAt": Timestamp(),
+            "userId": "yourUserId" // 実際はFirebaseAuthなどから取得
+        ]
+
+        db.collection("recipes").addDocument(data: newRecipe) { error in
+            if let error = error {
+                print("保存失敗: \(error.localizedDescription)")
+            } else {
+                print("保存成功！")
+                // 入力フォーム初期化などもここで
+            }
+        }
+    }
+
 }
 
 // プレビュー
