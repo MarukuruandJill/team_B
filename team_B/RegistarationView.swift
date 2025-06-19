@@ -1,3 +1,4 @@
+
 import SwiftUI
 import FirebaseFirestore
 
@@ -6,21 +7,21 @@ struct RegistrationView: View {
         TabView {
             RecordView()
                 .tabItem {
-                    Label("メニュー", systemImage: "list.bullet")
+                    Label("メニュー", systemImage: "fork.knife")
                 }
             
-            // 献立表タブ（仮）
+            // 献立表タブ
             Text("献立表")
                 .font(.title)
                 .tabItem {
-                    Label("献立表", systemImage: "calendar")
+                    Label("献立表", systemImage: "calendar.badge.plus")
                 }
             
-            // 共有タブ（仮）
+            // 共有タブ
             Text("共有")
                 .font(.title)
                 .tabItem {
-                    Label("共有", systemImage: "person.2")
+                    Label("共有", systemImage: "square.and.arrow.up")
                 }
         }
     }

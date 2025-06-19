@@ -71,19 +71,6 @@ struct RecipeShareView: View {
                     Spacer()
                 }
                 .background(Color.white)
-                
-                // ボトムタブバー
-                HStack {
-                    TabBarButton(icon: "cup.and.saucer.fill", isSelected: false)
-                    Spacer()
-                    TabBarButton(icon: "calendar", isSelected: false)
-                    Spacer()
-                    TabBarButton(icon: "square.and.arrow.up", isSelected: true)
-                }
-                .padding(.horizontal, 50)
-                .padding(.vertical, 20)
-                .background(Color.white)
-                .shadow(color: .gray.opacity(0.2), radius: 2, x: 0, y: -2)
             }
         }
         .navigationBarHidden(true)
@@ -93,21 +80,6 @@ struct RecipeShareView: View {
         // レシピデッキ追加の処理
         print("レシピデッキを追加: \(shareURL)")
         // ここに実際の処理を実装
-    }
-}
-
-struct TabBarButton: View {
-    let icon: String
-    let isSelected: Bool
-    
-    var body: some View {
-        Button(action: {
-            // タブ切り替えの処理
-        }) {
-            Image(systemName: icon)
-                .font(.system(size: 24))
-                .foregroundColor(isSelected ? .black : .gray)
-        }
     }
 }
 
