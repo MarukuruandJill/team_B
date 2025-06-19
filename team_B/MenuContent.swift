@@ -6,13 +6,47 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MenuContent: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @State private var showRegistration = false
     var body: some View {
-        Text("メニュー画面です")
-    }
-}
+        VStack(spacing: 20) {
+            Text("ようこそ！")
+                .font(.title)
+            Button(action: {
+                                showRegistration = true
+                            }) {
+                                Text("料理記録へ")
+                                    .font(.title2)
+                                    .padding()
+                                    .frame(width: 200)
+                                    .background(Color.blue.opacity(0.8))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(12)
+                            }
+            Button(action: {
+                logout()
+            }) {
+                Text("ログアウト")
+                    .font(.title2)
+                    .padding()
+                    .frame(width: 200)
+                    .background(Color.red.opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            }
 
-#Preview {
-    MenuContent()
+            Spacer()
+        }
+        .padding()
+        .navigationDestination(isPresented: $showRegistration) {
+            RecordView()
+        }
+    }
+
+    func logout() {
+        authViewModel.logout()
+    }
 }
