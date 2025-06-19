@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		186690EC2E00CE4F00445AB8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 186690EB2E00CE4F00445AB8 /* FirebaseAnalytics */; };
-<<<<<<< Updated upstream
 		186690F12E0102AC00445AB8 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 186690F02E0102AC00445AB8 /* FirebaseCore */; };
 		186690F32E0102AC00445AB8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 186690F22E0102AC00445AB8 /* FirebaseFirestore */; };
-=======
 		21546C702E00FB8F001D0197 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 21546C6F2E00FB8F001D0197 /* GoogleService-Info.plist */; };
 >>>>>>> Stashed changes
+
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -168,7 +167,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21546C702E00FB8F001D0197 /* GoogleService-Info.plist in Resources */,
+				218216B62E010EA600214991 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

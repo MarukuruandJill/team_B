@@ -6,6 +6,15 @@
 //
 
 import SwiftUI
+import Foundation
+import FirebaseFirestore
+//import FirebaseFirestoreSwift
+
+struct MealRecord: Codable, Identifiable {
+    @DocumentID var id: String? = UUID().uuidString
+    var date: Date
+    var name: String
+}
 
 struct RegisterToCalendarView: View {
     @State private var selectedDate = Date()
@@ -18,7 +27,7 @@ struct RegisterToCalendarView: View {
                 HStack{
                     Label("料理を記録", systemImage: "calendar")
                         .font(.headline)
-                        .padding(.horizontal, 12)
+                        .padding(.horizontal, 3)
                         .padding(.vertical, 12)
                         .background(Color("AccentPink"))
                         .cornerRadius(20)
@@ -54,6 +63,15 @@ struct RegisterToCalendarView: View {
                 // 登録ボタン
                 Button(action: {
                     // カレンダーに記録処理を書く
+                    let db = Firestore.firestore()
+                    let newMeal = MealRecord(date: selectedDate, name: mealName)
+                    
+                    do {
+                        _ = try db.collection("meals").addDocument(from: newMeal)
+                        dismiss()
+                    } catch {
+                        print("Error writing to Firestore: \(error)")
+                    }
                     dismiss()
                     
                 }) {

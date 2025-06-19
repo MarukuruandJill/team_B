@@ -3,26 +3,27 @@ import FirebaseFirestore
 
 struct RegistrationView: View {
     var body: some View {
-        TabView {
-            RecordView()
-                .tabItem {
-                    Label("メニュー", systemImage: "list.bullet")
-                }
-            
-            // 献立表タブ（仮）
-            Text("献立表")
-                .font(.title)
-                .tabItem {
-                    Label("献立表", systemImage: "calendar")
-                }
-            
-            // 共有タブ（仮）
-            Text("共有")
-                .font(.title)
-                .tabItem {
-                    Label("共有", systemImage: "person.2")
-                }
-        }
+//        TabView {
+//            RecordView()
+//                .tabItem {
+//                    Label("メニュー", systemImage: "list.bullet")
+//                }
+//            
+//            // 献立表タブ（仮）
+//            Text("献立表")
+//                .font(.title)
+//                .tabItem {
+//                    Label("献立表", systemImage: "calendar")
+//                }
+//            
+//            // 共有タブ（仮）
+//            Text("共有")
+//                .font(.title)
+//                .tabItem {
+//                    Label("共有", systemImage: "person.2")
+//                }
+//        }
+        RecordView()
     }
 }
 
