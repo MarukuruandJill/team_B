@@ -107,7 +107,7 @@ func isToday(_ date: Date) -> Bool {
     let sampleData = [
         CookingData(date: today, name: "オムライス", image: Image(systemName: "photo")),
         CookingData(date: today, name: "カレー", image: Image(systemName: "photo")),
-        CookingData(date: today.addingTimeInterval(-86400), name: "ラーメン", image: Image(systemName: "photo")) 
+        CookingData(date: today.addingTimeInterval(-86400), name: "ラーメン", image: Image(systemName: "photo"))
     ]
     
     return DayRowView(date: today, cookingDataList: sampleData)

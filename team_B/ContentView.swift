@@ -34,7 +34,7 @@ struct ContentView: View {
                 Image("calendar")
                     .renderingMode(.template)
                 Text("メニュー")
-            }
+            }.tag(0)
             RecipeContent().tabItem{
                 Image("cooking")
                     .renderingMode(.template)
@@ -45,6 +45,9 @@ struct ContentView: View {
                     .renderingMode(.template)
                 Text("共有")
             }.tag(2)
+            RecordView().tabItem{
+                Text("登録")
+            }.tag(3)
         }
         .modifier(
             TabBarModifier(

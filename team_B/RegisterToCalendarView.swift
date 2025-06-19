@@ -1,24 +1,26 @@
-//
-//  RegisterToCalendarView.swift
-//  team_B
-//
-//  Created by 武井まりあ on 2025/06/14.
-//
-
 import SwiftUI
+import FirebaseFirestore
+
+struct Recipe: Identifiable, Codable {
+    @DocumentID var id: String?
+    var name: String
+}
 
 struct RegisterToCalendarView: View {
-    @State private var selectedDate = Date()
     @State private var mealName: String = ""
+    @State private var selectedDate = Date()
+    @State private var suggestions: [Recipe] = []
+    @State private var selectedRecipe: Recipe? = nil
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationStack{
-            VStack(spacing: 16){
-                HStack{
+        NavigationStack {
+            VStack(spacing: 16) {
+                // ヘッダー
+                HStack {
                     Label("料理を記録", systemImage: "calendar")
                         .font(.headline)
-                        .padding(.horizontal, 12)
+                        .padding(.horizontal, 3)
                         .padding(.vertical, 12)
                         .background(Color("AccentPink"))
                         .cornerRadius(20)
@@ -26,6 +28,7 @@ struct RegisterToCalendarView: View {
                 .frame(maxWidth: .infinity)
                 .background(Color(red: 0.95, green: 0.55, blue: 0.70).opacity(0.3))
                 
+                // 日付選択
                 VStack(alignment: .leading, spacing: 8) {
                     Text("日付を選択")
                         .font(.subheadline)
@@ -38,6 +41,7 @@ struct RegisterToCalendarView: View {
                         .padding(.horizontal)
                 }
                 
+                // 検索ボックス
                 VStack(alignment: .leading, spacing: 4) {
                     Text("料理名から検索")
                         .font(.subheadline)
@@ -47,15 +51,50 @@ struct RegisterToCalendarView: View {
                     TextField("例）オムライス", text: $mealName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
+                        .onChange(of: mealName) { newValue in
+                            fetchSuggestions(for: newValue)
+                        }
+                }
+                
+                // 候補リスト
+                if !suggestions.isEmpty {
+                    List {
+                        ForEach(suggestions) { recipe in
+                            Button(action: {
+                                self.mealName = recipe.name
+                                self.selectedRecipe = recipe
+                                self.suggestions = []
+                            }) {
+                                Text(recipe.name)
+                            }
+                        }
+                    }
+                    .frame(height: 150)
                 }
                 
                 Spacer()
                 
                 // 登録ボタン
                 Button(action: {
-                    // カレンダーに記録処理を書く
-                    dismiss()
+                    guard let selected = selectedRecipe else {
+                        print("レシピを選択してください")
+                        return
+                    }
                     
+                    let db = Firestore.firestore()
+                    let newMealData: [String: Any] = [
+                        "date": Timestamp(date: selectedDate),
+                        "name": selected.name
+                    ]
+                    
+                    db.collection("meals").addDocument(data: newMealData) { error in
+                        if let error = error {
+                            print("Error writing to Firestore: \(error.localizedDescription)")
+                        } else {
+                            print("✅ 登録成功")
+                            dismiss()
+                        }
+                    }
                 }) {
                     Text("この料理を\nカレンダーに記録する")
                         .font(.headline)
@@ -72,9 +111,34 @@ struct RegisterToCalendarView: View {
                 .cornerRadius(50)
                 
                 Spacer()
-                
             }
         }
+    }
+    
+    private func fetchSuggestions(for query: String) {
+        guard !query.isEmpty else {
+            self.suggestions = []
+            return
+        }
+        
+        let db = Firestore.firestore()
+        db.collection("recipes")
+            .order(by: "name")
+            .start(at: [query])
+            .end(at: [query + "\u{f8ff}"])
+            .limit(to: 10)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Error fetching suggestions: \(error)")
+                    return
+                }
+                
+                guard let docs = snapshot?.documents else { return }
+                
+                self.suggestions = docs.compactMap { doc in
+                    try? doc.data(as: Recipe.self)
+                }
+            }
     }
 }
 

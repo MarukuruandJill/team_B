@@ -12,7 +12,7 @@ struct RecordView: View {
     @State private var memo: String = ""
     @State private var selectedImage: UIImage? = nil
     @State private var isPickerPresented = false
-
+    
     private let difficulties = ["すごく楽", "楽", "普通", "大変"]
     private let categories = ["和食", "洋食", "中華", "韓国", "海外の料理", "野菜", "海鮮", "揚げ物", "鍋・スープ", "その他"]
     
@@ -53,8 +53,8 @@ struct RecordView: View {
                                         .padding(.horizontal, 12)
                                         .background(
                                             selectedDifficulty == diff
-                                                ? Color.blue.opacity(0.3)
-                                                : Color(.systemGray5)
+                                            ? Color.blue.opacity(0.3)
+                                            : Color(.systemGray5)
                                         )
                                         .cornerRadius(16)
                                         .onTapGesture {
@@ -76,8 +76,8 @@ struct RecordView: View {
                                         .padding(.horizontal, 12)
                                         .background(
                                             selectedCategories.contains(cat)
-                                                ? Color.green.opacity(0.3)
-                                                : Color(.systemGray5)
+                                            ? Color.green.opacity(0.3)
+                                            : Color(.systemGray5)
                                         )
                                         .cornerRadius(16)
                                         .onTapGesture {
@@ -213,7 +213,7 @@ struct RecordView: View {
 
 struct PhotoPicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
-
+    
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var config = PHPickerConfiguration()
         config.filter = .images
@@ -221,25 +221,25 @@ struct PhotoPicker: UIViewControllerRepresentable {
         picker.delegate = context.coordinator
         return picker
     }
-
+    
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-
+    
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         let parent: PhotoPicker
-
+        
         init(_ parent: PhotoPicker) {
             self.parent = parent
         }
-
+        
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             picker.dismiss(animated: true)
-
+            
             guard let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self) else { return }
-
+            
             provider.loadObject(ofClass: UIImage.self) { image, _ in
                 DispatchQueue.main.async {
                     self.parent.selectedImage = image as? UIImage
