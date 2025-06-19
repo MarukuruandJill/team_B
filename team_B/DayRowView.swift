@@ -4,7 +4,7 @@ struct CookingData: Identifiable {
     var id = UUID()
     var date: Date
     var name: String
-    var image: Image
+    var imageUrl: String // URL文字列に変更
 }
 
 struct PhotoAndName: View {
@@ -12,7 +12,6 @@ struct PhotoAndName: View {
     let cookingDataList: [CookingData]
     
     var body: some View {
-        // 同じ日付の料理データのみ抽出（時刻を無視）
         let matchedItems = cookingDataList.filter {
             Calendar.current.isDate($0.date, inSameDayAs: date)
         }
@@ -20,12 +19,25 @@ struct PhotoAndName: View {
         HStack(spacing: 12) {
             ForEach(matchedItems) { data in
                 VStack(spacing: 8) {
-                    data.image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 60, height: 60)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    
+                    AsyncImage(url: URL(string: data.imageUrl)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 60, height: 60)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        case .failure(_):
+                            Image(systemName: "photo")
+                                .frame(width: 60, height: 60)
+                                .foregroundColor(.gray)
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
                     Text(data.name)
                         .font(.headline)
                         .foregroundColor(.primary)
@@ -101,14 +113,3 @@ func isToday(_ date: Date) -> Bool {
     Calendar.current.isDateInToday(date)
 }
 
-// Preview（仮データあり）
-#Preview {
-    let today = Date()
-    let sampleData = [
-        CookingData(date: today, name: "オムライス", image: Image(systemName: "photo")),
-        CookingData(date: today, name: "カレー", image: Image(systemName: "photo")),
-        CookingData(date: today.addingTimeInterval(-86400), name: "ラーメン", image: Image(systemName: "photo"))
-    ]
-    
-    return DayRowView(date: today, cookingDataList: sampleData)
-}

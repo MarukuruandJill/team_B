@@ -19,6 +19,7 @@ struct RecipeContent: View {
     let cookingDataList: [CookingData]?
     @State private var weekStartDate = Date()
     @State private var navigate = false
+    @StateObject private var viewModel = CookingDataViewModel()
     
     init(startDate: Date? = nil, cookingDataList: [CookingData]? = nil) {
         self.startDate = startDate
@@ -64,7 +65,7 @@ struct RecipeContent: View {
                 // 7日分の行
                 ForEach(0..<7, id: \.self) { i in
                     if let date = Calendar.current.date(byAdding: .day, value: i, to: weekStartDate) {
-                        DayRowView(date: date, cookingDataList: cookingDataList ?? [])
+                        DayRowView(date: date, cookingDataList: viewModel.cookingDataList)
                     }
                 }
                 
@@ -92,18 +93,11 @@ struct RecipeContent: View {
                 NavigationLink(destination: RegisterToCalendarView(), isActive: $navigate) {
                     EmptyView()
                 }
+                .onAppear {
+                    viewModel.fetchCookingData()
+                }
             }
             .navigationBarHidden(true) // ナビゲーションバー非表示（必要なら）
         }
     }
-}
-
-#Preview {
-    let sampleData = [
-        CookingData(date: Date(), name: "オムライス", image: Image(systemName: "photo")),
-        CookingData(date: Date(), name: "カレー", image: Image(systemName: "photo")),
-        CookingData(date: Date().addingTimeInterval(-86400), name: "ラーメン", image: Image(systemName: "photo")),// 昨日分（表示されない）
-        CookingData(date: Date().addingTimeInterval(86400), name: "寿司", image: Image(systemName: "photo"))
-    ]
-    RecipeContent(cookingDataList: sampleData)
 }
