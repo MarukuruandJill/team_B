@@ -1,32 +1,8 @@
 import SwiftUI
 import FirebaseFirestore
-
-struct RegistrationView: View {
-    var body: some View {
-//        TabView {
-//            RecordView()
-//                .tabItem {
-//                    Label("メニュー", systemImage: "list.bullet")
-//                }
-//            
-//            // 献立表タブ（仮）
-//            Text("献立表")
-//                .font(.title)
-//                .tabItem {
-//                    Label("献立表", systemImage: "calendar")
-//                }
-//            
-//            // 共有タブ（仮）
-//            Text("共有")
-//                .font(.title)
-//                .tabItem {
-//                    Label("共有", systemImage: "person.2")
-//                }
-//        }
-        RecordView()
-    }
-}
-
+import FirebaseStorage
+import PhotosUI
+import FirebaseAuth
 
 struct RecordView: View {
     @State private var dishName: String = ""
@@ -34,10 +10,11 @@ struct RecordView: View {
     @State private var selectedCategories: Set<String> = []
     @State private var url: String = ""
     @State private var memo: String = ""
+    @State private var selectedImage: UIImage? = nil
+    @State private var isPickerPresented = false
     
     private let difficulties = ["すごく楽", "楽", "普通", "大変"]
-    private let categories = ["和食", "洋食", "中華", "韓国", "海外の料理",
-                              "野菜", "海鮮", "揚げ物", "鍋・スープ", "その他"]
+    private let categories = ["和食", "洋食", "中華", "韓国", "海外の料理", "野菜", "海鮮", "揚げ物", "鍋・スープ", "その他"]
     
     var body: some View {
         NavigationView {
@@ -76,8 +53,8 @@ struct RecordView: View {
                                         .padding(.horizontal, 12)
                                         .background(
                                             selectedDifficulty == diff
-                                                ? Color.blue.opacity(0.3)
-                                                : Color(.systemGray5)
+                                            ? Color.blue.opacity(0.3)
+                                            : Color(.systemGray5)
                                         )
                                         .cornerRadius(16)
                                         .onTapGesture {
@@ -99,8 +76,8 @@ struct RecordView: View {
                                         .padding(.horizontal, 12)
                                         .background(
                                             selectedCategories.contains(cat)
-                                                ? Color.green.opacity(0.3)
-                                                : Color(.systemGray5)
+                                            ? Color.green.opacity(0.3)
+                                            : Color(.systemGray5)
                                         )
                                         .cornerRadius(16)
                                         .onTapGesture {
@@ -114,15 +91,35 @@ struct RecordView: View {
                             }
                         }
                         
-                        // URL
+                        // 画像
                         Group {
-                            Text("URL")
+                            Text("画像")
                                 .font(.headline)
-                            TextField("https://", text: $url)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .keyboardType(.URL)
-                                .autocapitalization(.none)
+                            if let selectedImage = selectedImage {
+                                Image(uiImage: selectedImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 200)
+                                    .cornerRadius(8)
+                            } else {
+                                Button("画像を選択") {
+                                    isPickerPresented = true
+                                }
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                            }
                         }
+                        .sheet(isPresented: $isPickerPresented) {
+                            PhotoPicker(selectedImage: $selectedImage)
+                        }
+                        
+                        // URL
+                        TextField("https://", text: $url)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.URL)
+                            .autocapitalization(.none)
                         
                         // メモ
                         Group {
@@ -156,34 +153,105 @@ struct RecordView: View {
             .navigationBarHidden(true)
         }
     }
+    
     func saveToFirestore() {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("ユーザーIDが取得できませんでした")
+            return
+        }
+        
         let db = Firestore.firestore()
-        let newRecipe: [String: Any] = [
-            "name": dishName,
-            "difficulty": selectedDifficulty,
-            "category": Array(selectedCategories),
-            "url": url,
-            "memo": memo,
-            "createdAt": Timestamp(),
-            "userId": "yourUserId" // 実際はFirebaseAuthなどから取得
-        ]
+        let storage = Storage.storage()
+        
+        if let selectedImage = selectedImage, let imageData = selectedImage.jpegData(compressionQuality: 0.8) {
+            let imageRef = storage.reference().child("images/\(UUID().uuidString).jpg")
+            imageRef.putData(imageData, metadata: nil) { metadata, error in
+                if let error = error {
+                    print("画像アップロード失敗: \(error.localizedDescription)")
+                    return
+                }
+                
+                imageRef.downloadURL { url, error in
+                    if let error = error {
+                        print("画像URL取得失敗: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    guard let imageUrl = url?.absoluteString else { return }
+                    
+                    let newRecipe: [String: Any] = [
+                        "name": dishName,
+                        "difficulty": selectedDifficulty,
+                        "category": Array(selectedCategories),
+                        "recipeUrl": self.url,
+                        "memo": memo,
+                        "createdAt": Timestamp(),
+                        "imageUrl": imageUrl,
+                        "userId": userId
+                    ]
+                    
+                    db.collection("recipes").addDocument(data: newRecipe) { error in
+                        if let error = error {
+                            print("保存失敗: \(error.localizedDescription)")
+                        } else {
+                            print("保存成功！")
+                            dishName = ""
+                            selectedDifficulty = "普通"
+                            selectedCategories = []
+                            self.url = ""
+                            memo = ""
+                            self.selectedImage = nil
+                        }
+                    }
+                }
+            }
+        } else {
+            print("画像が選択されていません")
+        }
+    }
+}
 
-        db.collection("recipes").addDocument(data: newRecipe) { error in
-            if let error = error {
-                print("保存失敗: \(error.localizedDescription)")
-            } else {
-                print("保存成功！")
-                // 入力フォーム初期化などもここで
+struct PhotoPicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        let parent: PhotoPicker
+        
+        init(_ parent: PhotoPicker) {
+            self.parent = parent
+        }
+        
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
+            
+            guard let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self) else { return }
+            
+            provider.loadObject(ofClass: UIImage.self) { image, _ in
+                DispatchQueue.main.async {
+                    self.parent.selectedImage = image as? UIImage
+                }
             }
         }
     }
-
 }
 
 // プレビュー
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        RegistrationView()
+        RecordView()
     }
 }
-

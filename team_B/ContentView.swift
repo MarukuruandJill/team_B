@@ -45,7 +45,7 @@ struct ContentView: View {
                     .renderingMode(.template)
                 Text("共有")
             }.tag(2)
-            RegistrationView().tabItem{
+            RecordView().tabItem{
                 Text("登録")
             }.tag(3)
         }
