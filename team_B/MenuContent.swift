@@ -7,6 +7,8 @@
 
 import SwiftUI
 import FirebaseAuth
+import SDWebImageSwiftUI
+import FirebaseFirestore
 
 struct MenuContent: View {
     @EnvironmentObject var authViewModel: AuthViewModel

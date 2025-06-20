@@ -1,9 +1,11 @@
 import SwiftUI
 import FirebaseFirestore
+import FirebaseAuth
 
 struct Recipe: Identifiable, Codable {
     @DocumentID var id: String?
     var name: String
+    var userId: String
 }
 
 struct RegisterToCalendarView: View {
@@ -80,11 +82,15 @@ struct RegisterToCalendarView: View {
                         print("レシピを選択してください")
                         return
                     }
-                    
+                    guard let uid = Auth.auth().currentUser?.uid else {
+                        print("ユーザーがログインしていません")
+                        return
+                    }
                     let db = Firestore.firestore()
                     let newMealData: [String: Any] = [
                         "date": Timestamp(date: selectedDate),
-                        "name": selected.name
+                        "name": selected.name,
+                        "userId": uid
                     ]
                     
                     db.collection("meals").addDocument(data: newMealData) { error in

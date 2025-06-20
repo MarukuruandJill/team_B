@@ -40,7 +40,7 @@ struct ContentView: View {
                     .renderingMode(.template)
                 Text("献立表")
             }.tag(1)
-            ShareContent().tabItem{
+            RecipeShareView().tabItem{
                 Image("share")
                     .renderingMode(.template)
                 Text("共有")
