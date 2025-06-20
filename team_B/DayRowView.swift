@@ -23,23 +23,23 @@ struct PhotoAndName: View {
                         switch phase {
                         case .empty:
                             ProgressView()
-                                .frame(width: 60, height: 60)
+                                .frame(width: 60, height: 40)
                         case .success(let image):
                             image
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 60, height: 60)
+                                .frame(width: 60, height: 40)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         case .failure(_):
                             Image(systemName: "photo")
-                                .frame(width: 60, height: 60)
+                                .frame(width: 60, height: 40)
                                 .foregroundColor(.gray)
                         @unknown default:
                             EmptyView()
                         }
                     }
                     Text(data.name)
-                        .font(.headline)
+//                        .font(.headline)
                         .foregroundColor(.primary)
                 }
             }
