@@ -5,6 +5,7 @@ import PhotosUI
 import FirebaseAuth
 
 struct RecordView: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var dishName: String = ""
     @State private var selectedDifficulty: String = "普通"
     @State private var selectedCategories: Set<String> = []
@@ -12,73 +13,105 @@ struct RecordView: View {
     @State private var memo: String = ""
     @State private var selectedImage: UIImage? = nil
     @State private var isPickerPresented = false
-    
+
     private let difficulties = ["すごく楽", "楽", "普通", "大変"]
-    private let categories = ["和食", "洋食", "中華", "韓国", "海外の料理", "野菜", "海鮮", "揚げ物", "鍋・スープ", "その他"]
-    
+    private let categories = ["ご飯もの", "麺類", "肉料理", "魚料理", "野菜", "揚げ物", "鍋・スープ", "スイーツ", "その他"]
+    private let pastelColors: [Color] = [
+        Color(red: 1.00, green: 0.90, blue: 0.80),
+        Color(red: 0.85, green: 0.95, blue: 0.80),
+        Color(red: 0.95, green: 0.85, blue: 1.00),
+        Color(red: 0.80, green: 0.90, blue: 1.00),
+        Color(red: 1.00, green: 0.80, blue: 0.90),
+        Color(red: 1.00, green: 0.95, blue: 0.80)
+    ]
+
     var body: some View {
-        NavigationView {
+        ZStack {
+            // 背景色 #e3cdcd
+            Color(red: 0.89, green: 0.80, blue: 0.80)
+                .ignoresSafeArea()
+
             VStack(spacing: 0) {
-                ScrollView {
+                // ヘッダーの閉じるボタン
+                HStack {
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.black)
+                            .padding()
+                    }
+                    Spacer()
+                }
+                .background(Color(red: 0.89, green: 0.80, blue: 0.80))
+
+                // タイトルピル
+                HStack {
+                    Spacer()
+                    HStack(spacing: 8) {
+                        Text("料理を記録")
+                            .font(.headline)
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    Spacer()
+                }
+                .padding(.bottom, 16)
+                .background(Color(red: 0.89, green: 0.80, blue: 0.80))
+
+                // フォーム部分
+                ScrollView(.vertical, showsIndicators: true) {
                     VStack(alignment: .leading, spacing: 24) {
-                        // ヘッダー
-                        HStack {
-                            Spacer()
-                            Text("📝 料理を記録")
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 16)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(20)
-                            Spacer()
-                        }
-                        
-                        // 料理名
+                        // 料理名入力
                         Group {
                             Text("料理名")
                                 .font(.headline)
-                            TextField("例: カレー", text: $dishName)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding(.horizontal)
+                            TextField("例: オムライス", text: $dishName)
+                                .padding(.vertical, 12)
+                                .padding(.horizontal)
+                                .background(Color.white)
+                                .cornerRadius(16)
+                                .padding(.horizontal)
                         }
-                        
-                        // 大変さ
+
+                        // 難易度選択
                         Group {
                             Text("大変さ")
                                 .font(.headline)
-                            HStack(spacing: 8) {
-                                ForEach(difficulties, id: \.self) { diff in
-                                    Text(diff)
-                                        .font(.subheadline)
-                                        .padding(.vertical, 8)
-                                        .padding(.horizontal, 12)
-                                        .background(
-                                            selectedDifficulty == diff
-                                            ? Color.blue.opacity(0.3)
-                                            : Color(.systemGray5)
-                                        )
-                                        .cornerRadius(16)
-                                        .onTapGesture {
-                                            selectedDifficulty = diff
-                                        }
+                                .padding(.horizontal)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 12) {
+                                    ForEach(difficulties, id: \ .self) { diff in
+                                        let selected = selectedDifficulty == diff
+                                        Text(diff)
+                                            .font(.subheadline)
+                                            .padding(.vertical, 8)
+                                            .padding(.horizontal, 12)
+                                            .background(selected ? Color.accentColor : Color.white)
+                                            .foregroundColor(selected ? .white : .black)
+                                            .cornerRadius(16)
+                                            .onTapGesture { selectedDifficulty = diff }
+                                    }
                                 }
+                                .padding(.horizontal)
                             }
                         }
-                        
-                        // カテゴリ
+
+                        // カテゴリ選択
                         Group {
                             Text("カテゴリ")
                                 .font(.headline)
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80), spacing: 10)], spacing: 10) {
-                                ForEach(categories, id: \.self) { cat in
+                                .padding(.horizontal)
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
+                                ForEach(Array(categories.enumerated()), id: \ .offset) { idx, cat in
+                                    let selected = selectedCategories.contains(cat)
                                     Text(cat)
                                         .font(.subheadline)
                                         .padding(.vertical, 8)
                                         .padding(.horizontal, 12)
-                                        .background(
-                                            selectedCategories.contains(cat)
-                                            ? Color.green.opacity(0.3)
-                                            : Color(.systemGray5)
-                                        )
+                                        .background(selected ? pastelColors[idx % pastelColors.count] : Color.white)
+                                        .foregroundColor(.black)
                                         .cornerRadius(16)
                                         .onTapGesture {
                                             if selectedCategories.contains(cat) {
@@ -89,70 +122,75 @@ struct RecordView: View {
                                         }
                                 }
                             }
+                            .padding(.horizontal)
                         }
-                        
-                        // 画像
+
+                        // 画像選択
                         Group {
                             Text("画像")
                                 .font(.headline)
-                            if let selectedImage = selectedImage {
-                                Image(uiImage: selectedImage)
+                                .padding(.horizontal)
+                            if let img = selectedImage {
+                                Image(uiImage: img)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(height: 200)
-                                    .cornerRadius(8)
+                                    .cornerRadius(16)
+                                    .padding(.horizontal)
                             } else {
-                                Button("画像を選択") {
-                                    isPickerPresented = true
+                                Button(action: { isPickerPresented = true }) {
+                                    Text("画像を選択")
+                                        .frame(maxWidth: .infinity)
+                                        .padding()
+                                        .background(Color.blue)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(16)
                                 }
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .padding(.horizontal)
+                                .sheet(isPresented: $isPickerPresented) {
+                                    PhotoPicker(selectedImage: $selectedImage)
+                                }
                             }
                         }
-                        .sheet(isPresented: $isPickerPresented) {
-                            PhotoPicker(selectedImage: $selectedImage)
-                        }
-                        
-                        // URL
+
+                        // URL入力
                         TextField("https://", text: $url)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .keyboardType(.URL)
-                            .autocapitalization(.none)
-                        
-                        // メモ
+                            .padding(.horizontal)
+
+                        // メモ入力
                         Group {
                             Text("メモ")
                                 .font(.headline)
+                                .padding(.horizontal)
                             TextEditor(text: $memo)
-                                .frame(height: 100)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color(.systemGray4))
-                                )
+                                .frame(height: 120)
+                                .padding(.horizontal)
+                                .background(Color.white)
+                                .cornerRadius(16)
                         }
                     }
-                    .padding()
+                    .padding(.vertical)
                 }
-                
-                // 登録ボタン
-                Button(action: {
-                    saveToFirestore()
-                }) {
+
+                // 記録ボタン
+                Button(action: { saveToFirestore() }) {
                     Text("この料理を記録する")
+                        .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color(.systemPink))
+                        .background(Color(red: 0.90, green: 0.40, blue: 0.50))
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(16)
                 }
                 .padding(.horizontal)
-                .padding(.bottom, 8)
+                .padding(.top, 8)
+                .padding(.bottom, 16)
+
             }
-            .navigationBarHidden(true)
         }
     }
+    
     
     func saveToFirestore() {
         guard let userId = Auth.auth().currentUser?.uid else {
