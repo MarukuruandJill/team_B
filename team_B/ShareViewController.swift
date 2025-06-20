@@ -34,7 +34,7 @@ struct RecipeShareView: View {
                             HStack {
                                 Image(systemName: "square.and.arrow.up")
                                     .foregroundColor(.black)
-                                Text("共有してもらおう")
+                                Text("共有")
                                     .foregroundColor(.black)
                                     .font(.system(size: 16, weight: .medium))
                             }
@@ -44,7 +44,7 @@ struct RecipeShareView: View {
                             .cornerRadius(25)
                         }
                         .sheet(isPresented: $showingShareSheet) {
-                            ShareSheet(items: ["レシピを共有しよう！"])
+                            ShareSheet(items: ["レシピを共有"])
                         }
                         
                         Spacer()
@@ -71,7 +71,7 @@ struct RecipeShareView: View {
                     Button(action: {
                         addRecipeDeck()
                     }) {
-                        Text("レシピデッキを追加")
+                        Text("レシピデッキを共有")
                             .font(.system(size: 18, weight: .medium))
                             .foregroundColor(.black)
                             .frame(maxWidth: .infinity)
@@ -124,7 +124,7 @@ struct RecipeShareView: View {
                 
                 // Step 2: 該当uidのレシピを取得
                 db.collection("recipes")
-                    .whereField("userId", isEqualTo: uid)
+                    .whereField("userId", isEqualTo: currentUserId)
                     .getDocuments { recipeSnapshot, error in
                         if let error = error {
                             print("レシピ取得エラー: \(error.localizedDescription)")
@@ -156,8 +156,7 @@ struct RecipeShareView: View {
                         for recipe in self.recipes {
                             print("名前: \(recipe.name), 大変さ: \(recipe.difficulty), カテゴリ: \(recipe.category), 画像URL: \(recipe.imageUrl ?? "なし")")
                         }
-                        // Step 3: 各レシピの userId を現在のユーザーIDに上書き
-                        // 🔁 レシピを複製して自分の userId で保存
+                        // Step 3: 各レシピの userId を相手ユーザーIDに上書き
                         for recipe in self.recipes {
                             let newRecipeData: [String: Any] = [
                                 "name": recipe.name,
@@ -188,7 +187,7 @@ struct RecipeShareView: View {
                                 "difficulty": recipe.difficulty,
                                 "category": recipe.category,
                                 "imageUrl": recipe.imageUrl ?? "",
-                                "userId": currentUserId,
+                                "userId": uid,
                                 "createdAt": Timestamp()
                             ]
                             
