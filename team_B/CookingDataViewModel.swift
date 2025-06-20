@@ -16,16 +16,25 @@ class CookingDataViewModel: ObservableObject {
             guard let recipeDocs = recipeSnapshot?.documents else { return }
             
             // 明示的に戻り値の型を指定して辞書作成
-            let recipeMap: [String: String] = Dictionary(uniqueKeysWithValues:
-                                                            recipeDocs.compactMap { doc -> (String, String)? in
+//            let recipeMap: [String: String] = Dictionary(uniqueKeysWithValues:
+//                                                            recipeDocs.compactMap { doc -> (String, String)? in
+//                let data = doc.data()
+//                guard let name = data["name"] as? String,
+//                      let imageUrl = data["imageUrl"] as? String else {
+//                    return nil
+//                }
+//                return (name, imageUrl)
+//            }
+//            )
+            
+            var recipeMap = [String: String]()
+            for doc in recipeDocs {
                 let data = doc.data()
-                guard let name = data["name"] as? String,
-                      let imageUrl = data["imageUrl"] as? String else {
-                    return nil
+                if let name = data["name"] as? String,
+                   let imageUrl = data["imageUrl"] as? String {
+                    recipeMap[name] = imageUrl  // 同じnameがあったら後のものが上書き
                 }
-                return (name, imageUrl)
             }
-            )
             
             // 次にmealsコレクションから実際の記録を取得
             db.collection("meals").getDocuments { mealSnapshot, error in
