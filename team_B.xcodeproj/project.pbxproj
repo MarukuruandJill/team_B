@@ -6,36 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		186690EC2E00CE4F00445AB8 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 186690EB2E00CE4F00445AB8 /* FirebaseAnalytics */; };
-		186690F12E0102AC00445AB8 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 186690F02E0102AC00445AB8 /* FirebaseCore */; };
-		186690F32E0102AC00445AB8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 186690F22E0102AC00445AB8 /* FirebaseFirestore */; };
-		214BD5EA2E0413A700E0819C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 214BD5E92E0413A700E0819C /* FirebaseAuth */; };
-		214BD5EB2E04156100E0819C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 21546C6F2E00FB8F001D0197 /* GoogleService-Info.plist */; };
-		214BD5ED2E044CF800E0819C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 214BD5EC2E044CF800E0819C /* FirebaseStorage */; };
-		216E900F2E05264D000C02E3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 216E900E2E05264D000C02E3 /* SDWebImageSwiftUI */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXBuildRule section */
-		186690ED2E00F78C00445AB8 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			fileType = folder.rkassets;
-			inputFiles = (
-			);
-			isEditable = 1;
-			outputFiles = (
-			);
-			script = "# realitytool\n";
-		};
-/* End PBXBuildRule section */
-
 /* Begin PBXFileReference section */
 		21399E512DF7CEBC00EFF024 /* team_B.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = team_B.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		21546C6F2E00FB8F001D0197 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		231C09D33C5984D75222896F /* Pods-team_B.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-team_B.release.xcconfig"; path = "Target Support Files/Pods-team_B/Pods-team_B.release.xcconfig"; sourceTree = "<group>"; };
-		D44270FA93CC21443A4F2377 /* Pods_team_B.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_team_B.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EBFD473EBB6BA72D73C2E2B0 /* Pods-team_B.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-team_B.debug.xcconfig"; path = "Target Support Files/Pods-team_B/Pods-team_B.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -51,12 +23,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				216E900F2E05264D000C02E3 /* SDWebImageSwiftUI in Frameworks */,
-				186690F12E0102AC00445AB8 /* FirebaseCore in Frameworks */,
-				186690EC2E00CE4F00445AB8 /* FirebaseAnalytics in Frameworks */,
-				186690F32E0102AC00445AB8 /* FirebaseFirestore in Frameworks */,
-				214BD5ED2E044CF800E0819C /* FirebaseStorage in Frameworks */,
-				214BD5EA2E0413A700E0819C /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,9 +34,6 @@
 			children = (
 				21399E532DF7CEBC00EFF024 /* team_B */,
 				21399E522DF7CEBC00EFF024 /* Products */,
-				F1E6DFD13AF953C1D86C6916 /* Pods */,
-				A388D1831885D43269484328 /* Frameworks */,
-				21546C6F2E00FB8F001D0197 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -82,23 +45,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A388D1831885D43269484328 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D44270FA93CC21443A4F2377 /* Pods_team_B.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		F1E6DFD13AF953C1D86C6916 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				EBFD473EBB6BA72D73C2E2B0 /* Pods-team_B.debug.xcconfig */,
-				231C09D33C5984D75222896F /* Pods-team_B.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,13 +52,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21399E5C2DF7CEBF00EFF024 /* Build configuration list for PBXNativeTarget "team_B" */;
 			buildPhases = (
-				C6DFBAD926EC6297AEE4EDE9 /* [CP] Check Pods Manifest.lock */,
 				21399E4D2DF7CEBC00EFF024 /* Sources */,
 				21399E4E2DF7CEBC00EFF024 /* Frameworks */,
 				21399E4F2DF7CEBC00EFF024 /* Resources */,
 			);
 			buildRules = (
-				186690ED2E00F78C00445AB8 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -121,12 +65,6 @@
 			);
 			name = team_B;
 			packageProductDependencies = (
-				186690EB2E00CE4F00445AB8 /* FirebaseAnalytics */,
-				186690F02E0102AC00445AB8 /* FirebaseCore */,
-				186690F22E0102AC00445AB8 /* FirebaseFirestore */,
-				214BD5E92E0413A700E0819C /* FirebaseAuth */,
-				214BD5EC2E044CF800E0819C /* FirebaseStorage */,
-				216E900E2E05264D000C02E3 /* SDWebImageSwiftUI */,
 			);
 			productName = team_B;
 			productReference = 21399E512DF7CEBC00EFF024 /* team_B.app */;
@@ -156,10 +94,6 @@
 			);
 			mainGroup = 21399E482DF7CEBB00EFF024;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (
-				186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				216E900D2E05264D000C02E3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 21399E522DF7CEBC00EFF024 /* Products */;
 			projectDirPath = "";
@@ -175,36 +109,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				214BD5EB2E04156100E0819C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		C6DFBAD926EC6297AEE4EDE9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-team_B-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		21399E4D2DF7CEBC00EFF024 /* Sources */ = {
@@ -340,7 +248,6 @@
 		};
 		21399E5D2DF7CEBF00EFF024 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBFD473EBB6BA72D73C2E2B0 /* Pods-team_B.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -354,7 +261,6 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -370,7 +276,6 @@
 		};
 		21399E5E2DF7CEBF00EFF024 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 231C09D33C5984D75222896F /* Pods-team_B.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -384,7 +289,6 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -420,58 +324,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.14.0;
-			};
-		};
-		216E900D2E05264D000C02E3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.1.3;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		186690EB2E00CE4F00445AB8 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		186690F02E0102AC00445AB8 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		186690F22E0102AC00445AB8 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		214BD5E92E0413A700E0819C /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		214BD5EC2E044CF800E0819C /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 186690EA2E00CE4F00445AB8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
-		};
-		216E900E2E05264D000C02E3 /* SDWebImageSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 216E900D2E05264D000C02E3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
-			productName = SDWebImageSwiftUI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 21399E492DF7CEBB00EFF024 /* Project object */;
 }
