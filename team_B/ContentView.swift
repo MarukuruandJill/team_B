@@ -31,23 +31,14 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selection) {
             MenuContent().tabItem {
-                Image("calendar")
-                    .renderingMode(.template)
-                Text("メニュー")
+                Label("メニュー", systemImage: "fork.knife")
             }.tag(0)
             RecipeContent().tabItem{
-                Image("cooking")
-                    .renderingMode(.template)
-                Text("献立表")
+                Label("献立表", systemImage: "calendar.badge.plus")
             }.tag(1)
             RecipeShareView().tabItem{
-                Image("share")
-                    .renderingMode(.template)
-                Text("共有")
+                Label("共有", systemImage: "square.and.arrow.up")
             }.tag(2)
-            RecordView().tabItem{
-                Text("登録")
-            }.tag(3)
         }
         .modifier(
             TabBarModifier(
